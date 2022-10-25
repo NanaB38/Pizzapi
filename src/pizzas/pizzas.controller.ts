@@ -10,6 +10,7 @@ import {
 import { PizzasService } from './pizzas.service';
 import { CreatePizzaDto } from './dto/create-pizza.dto';
 import { UpdatePizzaDto } from './dto/update-pizza.dto';
+// import { DeleteResult } from './dto/delete-pizza.dto';
 
 @Controller('pizzas')
 export class PizzasController {

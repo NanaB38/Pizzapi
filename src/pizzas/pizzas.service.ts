@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePizzaDto } from './dto/create-pizza.dto';
 import { UpdatePizzaDto } from './dto/update-pizza.dto';
+//import { DeleteResult } from './dto/delete-pizza.dto';
+import { Pizza } from './entities/pizza.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PizzasService {
-  create(createPizzaDto: CreatePizzaDto) {
-    return 'This action adds a new pizza';
+
+constructor(@InjectRepository(Pizza) private data: Repository<Pizza>) {}
+
+  create(dto : CreatePizzaDto): Promise<Pizza> {
+    return this.data.save(dto);
   }
 
-  findAll() {
-    return `This action returns all pizzas`;
+  findAll(): Promise<Pizza[]> {
+    return this.data.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pizza`;
+  findOne(id: number): Promise<Pizza> {
+    return this.data.findOneByOrFail({id}).catch(() => {
+      throw new NotFoundException(id);
+    });
   }
 
-  update(id: number, updatePizzaDto: UpdatePizzaDto) {
-    return `This action updates a #${id} pizza`;
+  async update(id: number, dto: UpdatePizzaDto): Promise<Pizza> {
+    const done = await this.data.update(id, dto);
+    if (done.affected != 1) {
+    throw new NotFoundException(id)
+    }
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pizza`;
-  }
+  // async remove(id: number): Promise<void>  {
+  //   const done : DeleteResult = await this.data.delete(id);
+  //   if (done.affected != 1) {
+  //   throw new NotFoundException(id);
+  //   }
+  // }
 }
