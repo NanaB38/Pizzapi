@@ -7,5 +7,4 @@ flavor: PizzaFlavor;
 speciality: boolean;
 price: number;
 end?: Date;
-
 }

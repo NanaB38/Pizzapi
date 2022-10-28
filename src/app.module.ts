@@ -1,24 +1,25 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PizzasModule } from './pizzas/pizzas.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PizzasModule } from './pizzas/pizzas.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    // ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
       port: 8889,
-      // port = DBeaver / mysql
       username: 'root',
       password: 'root',
       database: 'pizzapi',
+      //entities: ['/**/*.entity.ts'],
       autoLoadEntities: true,
       synchronize: true,
     }),
-    ConfigModule.forRoot(),
     PizzasModule,
   ],
   controllers: [AppController],

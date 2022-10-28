@@ -10,23 +10,23 @@ export class Pizza {
 
     @Index({unique: true})
     @Column({length:100})
-    name!: string;
+    name!: string
 
     @Index() 
     @Column({type:"enum", enum: PizzaFlavor})
-    flavor! : PizzaFlavor;
+    flavor! : PizzaFlavor
 
-    @Column({type:"timestamp", default: () => "current_timestramp"})
-    created!: Date;
+    @Column({type:"timestamp", default: () => "current_timestamp"})
+    created!: Date
 
     @Column({default: false})
-    speciality!: boolean;
+    speciality!: boolean
 
     @Column()
-    price!:number;
+    price! : number
 
     @Column({nullable: true})
-    end? : Date;
+    end? : Date
 }
 
 
